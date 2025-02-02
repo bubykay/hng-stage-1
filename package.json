@@ -1,10 +1,10 @@
 {
-  "name": "hng-tasks-template",
+  "name": "hng-stage-1",
   "version": "1.0.0",
   "description": "HNG Weekly task",
   "main": "index.js",
   "type": "module",
-  "repository": "git@github.com:bubykay/hng-tasks-template.git",
+  "repository": "git@github.com:bubykay/hng-stage-1.git",
   "author": "kayode <bubykay@gmail.com>",
   "license": "MIT",
   "scripts": {
@@ -13,6 +13,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "axios": "^1.7.9",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
