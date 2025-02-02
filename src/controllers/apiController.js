@@ -4,16 +4,16 @@ import { NumberProperties } from "../services/NumberPropertiesService.js";
 class APIController {
   async classifyNumber(req, res) {
     try {
-      let { number } = req.query;
+      const { number } = req.query;
 
       if (!number) {
-        return res.status(400).json({ error: "Number is required" });
+        return res.status(400).json({ error: "Number parameter is required" });
       }
 
-      number = parseInt(number, 10);
+      const isNumber = parseInt(number, 10);
 
-      if (isNaN(number)) {
-        return res.status(400).json({ error: true, number: "alphabet" });
+      if (isNaN(isNumber)) {
+        return res.status(400).json({ error: true, number });
       }
 
       const numberProperties = new NumberProperties(number);
