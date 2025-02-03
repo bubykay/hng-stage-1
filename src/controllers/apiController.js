@@ -5,23 +5,26 @@ class APIController {
   async classifyNumber(req, res) {
     try {
       const { number } = req.query;
+      const cleanNumber = number.trim();
 
-      if (!number) {
+      if (!cleanNumber) {
         return res.status(400).json({ error: "Number parameter is required" });
       }
 
-      const isNumber = parseInt(number, 10);
+      const intNumber = parseInt(cleanNumber, 10);
 
-      if (isNaN(isNumber)) {
+      const validIntegerRegex = /^-?\d+$/;
+
+      if (!validIntegerRegex.test(intNumber) || isNaN(intNumber)) {
         return res.status(400).json({ error: true, number });
       }
 
-      const numberProperties = new NumberProperties(number);
+      const numberProperties = new NumberProperties(intNumber);
 
-      const { text } = await ApiService.get(`/${number}/math?json`);
+      const { text } = await ApiService.get(`/${intNumber}/math?json`);
 
       res.json({
-        number,
+        number: intNumber,
         is_prime: numberProperties.isPrime(),
         is_perfect: numberProperties.isPerfectSquare(),
         properties: [
