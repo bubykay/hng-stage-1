@@ -5,26 +5,30 @@ class APIController {
   async classifyNumber(req, res) {
     try {
       const { number } = req.query;
-      const cleanNumber = number.trim();
 
-      if (!cleanNumber) {
-        return res.status(400).json({ error: "Number parameter is required" });
-      }
-
-      const intNumber = parseInt(cleanNumber, 10);
-
-      const validIntegerRegex = /^-?\d+$/;
-
-      if (!validIntegerRegex.test(intNumber) || isNaN(intNumber)) {
+      if (number === undefined || number.trim() === "") {
         return res.status(400).json({ error: true, number });
       }
 
-      const numberProperties = new NumberProperties(intNumber);
+      const trimmedNumber = number.trim();
 
-      const { text } = await ApiService.get(`/${intNumber}/math?json`);
+      const validIntegerRegex = /^-?\d+$/;
+      if (!validIntegerRegex.test(trimmedNumber)) {
+        return res.status(400).json({ error: true, number: trimmedNumber });
+      }
+
+      const cleanNumber = Number(trimmedNumber);
+
+      if (isNaN(cleanNumber)) {
+        return res.status(400).json({ error: true, number: trimmedNumber });
+      }
+
+      const numberProperties = new NumberProperties(cleanNumber);
+
+      const { text } = await ApiService.get(`/${cleanNumber}/math?json`);
 
       res.json({
-        number: intNumber,
+        number: cleanNumber,
         is_prime: numberProperties.isPrime(),
         is_perfect: numberProperties.isPerfectSquare(),
         properties: [
@@ -36,7 +40,7 @@ class APIController {
         fun_fact: text,
       });
     } catch (error) {
-      console.error("Error in classifyNumber:", error); // log the error to an error tracking service
+      console.error("Error in classifyNumber:", error);
       res.status(500).json({ error: "Internal Server Error" });
     }
   }
