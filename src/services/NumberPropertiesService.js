@@ -23,11 +23,12 @@ export class NumberProperties {
     return Math.sqrt(this.value) % 1 === 0;
   }
   digitsSum() {
-    return this.value
+    return Math.abs(this.value) // Take the absolute value to handle negatives
       .toString()
       .split("")
       .reduce((acc, curr) => acc + parseInt(curr), 0);
   }
+
   isArmstrong() {
     const str = this.value.toString();
     const n = str.length;
