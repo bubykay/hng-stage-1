@@ -13,7 +13,7 @@ function keepAlive(url) {
     });
 }
 
-cron.schedule("*/5 * * * *", () => {
+cron.schedule("*/15 * * * *", () => {
   try {
     keepAlive(
       "https://hng-stage-1-wo7e.onrender.com/api/classify-number?number=56"
